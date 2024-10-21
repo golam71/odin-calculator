@@ -10,6 +10,9 @@ function multiply(x, y) {
 }
 
 function devide(x, y) {
+  if (y == 0) {
+    return "Can't divide by 0";
+  }
   return x / y;
 }
 
@@ -30,7 +33,9 @@ const display = document.querySelector(".display");
 
 document.querySelectorAll("#num").forEach((btn) => {
   btn.addEventListener("click", () => {
-    display.innerText += btn.innerText;
+    if (Number(display.innerText) !== 0) {
+      display.innerText += btn.innerText;
+    } else display.innerText = btn.innerText;
   });
 });
 
@@ -38,7 +43,7 @@ document.querySelectorAll("#sign").forEach((btn) => {
   btn.addEventListener("click", () => {
     firstNum = Number(display.innerText);
     operatorSign = btn.innerText;
-    display.innerText = "0";
+    display.innerText = 0;
   });
 });
 
@@ -59,7 +64,7 @@ document.getElementById("calculate").onclick = () => {
       break;
 
     default:
-      result = firstNum;
+      result = display.innerText;
       break;
   }
   display.innerText = result;
@@ -73,3 +78,35 @@ document.getElementById("clear").onclick = () => {
   secondNum = 0;
   display.innerText = 0;
 };
+
+document.addEventListener("keydown", (event) => {
+  // Find the button that matches the pressed key's value
+  document.querySelectorAll("#num").forEach((btn) => {
+    if (btn.innerText === event.key) {
+      // Simulate a click on the found button
+      btn.click();
+    }
+  });
+});
+
+document.addEventListener("keydown", (event) => {
+  document.querySelectorAll("#sign").forEach((btn) => {
+    if (btn.innerText === event.key) {
+      // Simulate a click on the found button
+      // console.log(event.key);
+      btn.click();
+    }
+  });
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "=") {
+    document.getElementById("calculate").click();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "c") {
+    document.getElementById("clear").click();
+  }
+});
